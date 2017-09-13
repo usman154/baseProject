@@ -1,0 +1,120 @@
+<div class="event-detail-dialog" aria-label="New Message">
+
+    <md-toolbar class="md-accent md-hue-2">
+      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <span class="title" translate="generic.detail" translate-values="{name:'{{'user.user'|translate}}'}"></span>
+        <span>
+            <button type="button" class="md-icon-button md-button md-ink-ripple" ng-click="vm.deleteUser(vm.user)" aria-label="Delete"><md-icon md-font-icon="icon-delete" class="md-font icon-delete material-icons"></md-icon><md-tooltip>Delete</md-tooltip></button>
+            <button type="button" class="md-icon-button md-button md-ink-ripple" ng-click="vm.update(vm.user)" ng-disabled="agentForm.$invalid || agentForm.$pristine" aria-label="Save"><md-icon md-font-icon="icon-check" class="md-font material-icons"></md-icon><md-tooltip>Save</md-tooltip></button>
+      <button  type="button" class="md-icon-button md-button md-ink-ripple" translate-aria-label="generic.CLOSE"
+               tranlate="generic.CLOSE" aria-label="Close dialog" ng-click="vm.user=undefined">
+        <md-icon md-font-icon="icon-close" class="ng-scope ng-isolate-scope md-font icon-close material-icons" aria-hidden="true"></md-icon>
+        <md-tooltip ><span translate="generic.cancel"></span></md-tooltip></button>
+        </span>
+      </div>
+    </md-toolbar>
+  <form name="agentForm" class="user-detail">
+    <md-dialog-content ms-scroll>
+
+      <div layout="row" layout-align="center start" layout-margin>
+       
+        <div flex="30">
+          <div layout="column" layout-align="center start">
+
+            <div class="pro-pic">
+              <img ng-src="{{vm.user.avatar ? vm.user.avatar:'/efadminpanel/assets1/images/avatars/profile.jpg'}}" class="profile-image avatar xlarge" alt="{{vm.user.username}}" />
+            </div>
+            <div class="agnt-info grey-700-fg">
+              <p><md-icon class="icon icon-calendar grey-600-fg"></md-icon>
+                <span class="grey-700-fg" translate="generic.date_created">:</span><span class="dayt">{{vm.user.dateCreated | date:'fullDate'}}</span>
+              </p>
+              <p><md-icon class="icon icon-pencil grey-600-fg"></md-icon>
+                <span class="grey-700-fg" translate="generic.last_update">Last Update:</span><span class="dayt">{{vm.user.lastUpdated |date:'fullDate'}} </span>
+              </p>
+              <p><md-icon class="icon icon-login grey-600-fg"></md-icon>
+                <span class="grey-700-fg" translate="user.last_login">:</span><span class="dayt">{{vm.user.lastLogin?(vm.user.lastLogin |date:'fullDate'):'user.neverLogin'|translate}}</span>
+              </p>
+              <p ng-show="vm.user.createdBy"><md-icon class="icon icon-login grey-600-fg"></md-icon>
+                <span class="grey-700-fg" translate="generic.created_by">:</span><span class="dayt">{{vm.findUser(vm.user.createdBy.id)}}</span>
+              </p>
+              <p ng-show="vm.user.updatedBy"><md-icon class="icon icon-account grey-600-fg"></md-icon>
+                <span class="grey-700-fg" translate="generic.updated_by">:</span><span class="dayt">{{vm.findUser(vm.user.updatedBy.id)}}</span>
+              </p>
+            </div>
+            <div class="agnt-info grey-700-fg">
+              <span>{{vm.user.isActive?'user.active':'user.block' | translate}}</span>
+              <md-switch ng-model="vm.user.isActive" aria-label="Active"><!--{{ data.cb1 }}--></md-switch>
+            </div>
+            <!--<md-input-container class="md-block">
+                <md-switch ng-model="vm.user.isActive" aria-label=""></md-switch>
+              </md-input-container>-->
+          </div><!--column-->
+        </div>
+        
+        <div flex="70">
+          <div layout="row" layout-padding>
+            <div flex="50">
+              <md-input-container class="md-block">
+                <label for="" translate="user.fullName"></label>
+                <input name="fullName" disabled ng-model="vm.user.fullName" autocomplete="off" >
+              </md-input-container>
+            </div>
+            <div flex="50">
+              <md-input-container class="md-block">
+                <label for="" translate="user.username"></label>
+                <input name="username" ng-model="vm.user.username" disabled autocomplete="off" required>
+                <div ng-messages="agentForm.username.$error" ng-show="agentForm.username.$touched" role="alert">
+                  <div ng-message="required">
+                    <span translate="data.cannot_null" transalte-values="{name:{{'user.username'|translate}}"></span>
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+          </div><!--row-->
+          
+          <div layout="row" layout-padding>
+            <div flex="50">
+              <md-input-container class="md-block">
+                <label for="" translate="user.email"></label>
+                <input name="email" type="email" ng-model="vm.user.email" ng-model-options="{ debounce: 250 }"
+                       name-validate  url-name="/user/emailExist"  ng-pattern="/^.+@.+\..+$/" autocomplete="off">
+                <div ng-messages="agentForm.email.$error" ng-show="agentForm.email.$touched" role="alert">
+                  <div ng-message="pattern">
+                    <span translate="user.validEmailAddress"></span>
+                  </div>
+                  <div ng-show="!createForm.name.$valid && nameExist">
+                    <span translate="data.charSize" translate-values="{number:5}"></span>
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+            <div flex="50">
+              <md-input-container class="md-block">
+                <label for="" translate="user.assignRole"></label>
+                <md-select ng-model="vm.user.roles[0].id">
+                  <md-option ng-repeat="role in vm.roles" value="{{role.id}}">{{role.name}}</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+          </div><!--row-->
+        </div>
+        
+      </div><!--row-->
+
+    </md-dialog-content>
+ <!--<md-dialog-actions layout="row" class="agent-act" layout-align="center center" layout-margin>
+
+      <div flex=20>
+        <button type="button" ng-click="vm.deleteUser(vm.user)" class="md-icon-button md-button md-ink-ripple" aria-label="Delete"><md-icon md-font-icon="icon-delete" class="md-font icon-delete material-icons"></md-icon><md-tooltip>Delete</md-tooltip></button>
+      </div>
+      <div flex=80 layout="row" layout-align="end center">
+
+
+        <md-button ng-click="vm.update(vm.user)" class="save-button md-accent white-fg md-raised" aria-label="Save"
+                   ng-disabled="agentForm.$invalid || agentForm.$pristine">Save</md-button>
+      </div>
+    </md-dialog-actions>-->
+
+  </form>
+
+</div>

@@ -1,0 +1,53 @@
+<div ng-show="!vm.authorizationRequires" layout="row" id="file-manager" class="page-layout page-layout2 simple right-sidenav right-sidenav2">
+
+	<div class="side-nav" layout="column" flex="30" style="overflow: hidden">
+		<div class="top-bg md-accent-bg"></div>
+		<div class="header" layout="column" layout-align="space-between">
+			<div class="logo" layout="row" layout-align="start center">
+				<span class="logo-text" translate="">Users</span>
+			</div>
+		</div>
+		<!--Users List-->
+		<div class="center user-list" layout="column" ms-scroll>
+
+		<div class="todo-items" ng-model="vm.agentList">
+            <div class="todo-item md-grey-A100-bg" md-ink-ripple layout="row" layout-align="start center" ng-click="vm.selectedUser(user)" ng-repeat="user in vm.userList | filter:global.search">
+
+                <div class="info" flex="100">
+                    <md-list flex="100" class="fixedRows">
+                        <md-list-item class="contact-item">
+                            <img ng-src="{{user.avatar ? user.avatar:'/efadminpanel/assets1/images/avatars/profile.jpg'}}" class="md-avatar" alt="{{user.username}}" />
+                            <div class="md-list-item-text compact">
+                            	<h3><md-tooltip md-direction="top"><span translate="user.username"></span></md-tooltip>{{user.username=='admin'?user.username:user.fullName}}</h3>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div><!-- info -->
+
+        	</div><!-- todo-item -->
+		</div><!-- todo-items -->
+	</div><!-- flex 30 -->
+	</div>
+
+	<button type="button" class="hidden add-event-button new-user md-fab md-warn md-button ng-scope md-ink-ripple md-default-theme" aria-label="Add User"
+        ng-click="vm.create($event)"><md-icon md-font-icon="icon-plus" class="ng-scope ng-isolate-scope md-font icon-plus material-icons md-default-theme"
+                                               ></md-icon><div class="md-ripple-container" style=""></div></button>
+
+    <!--User Detail-->
+    <md-sidenav ng-if="vm.user!=undefined" class="center sidebar" layout="column" flex="70" md-is-locked-open="$mdMedia('gt-xs')"
+            md-component-id="details-sidenav"
+            ng-include="'app/user/sidenavs/sidenaveEdit.html'" ms-scroll
+            ms-sidenav-helper>
+    </md-sidenav>
+</div>
+
+<div id="admin-access" ng-show="vm.authorizationRequires">
+    <div layout="column" ui-view="main" class="animate-slide-up ng-scope" id="main" ng-show="vm.authorizationRequires">
+      <div flex="" layout="column" class="template-layout ng-scope" id="layout-content-only">
+        <md-content flex="" ui-view="content" class="animate-slide-up md-background md-hue-1 ng-scope md-default-theme" id="content">
+          <ng-include src="'app/adminPanel/custome/accessDenied.html'"/>
+        </md-content>
+      </div>
+
+    </div>
+</div>

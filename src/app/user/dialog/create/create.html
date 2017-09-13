@@ -1,0 +1,102 @@
+<md-dialog  class="card-dialog" aria-label="New Message"  ng-cloak>
+
+  <md-toolbar class="md-accent ">
+    <div class="md-toolbar-tools" >
+      <!-- Title -->
+      <span class="title">Create</span>
+      <!-- /Title -->
+
+      <span flex></span>
+      <!-- CLOSE DIALOG BUTTON -->
+      <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate
+                 translate-attr-aria-label="CALENDAR.CLOSE_DIALOG">
+        <md-icon md-font-icon="icon-close"></md-icon>
+      </md-button>
+      <!-- /CLOSE DIALOG BUTTON -->
+    </div>
+
+  </md-toolbar>
+  <!--{{vm.easyAnnouncement}}-->
+
+  <form name="agentForm" class="user-detail">
+    <md-dialog-content ms-scroll>
+
+
+      <div layout="row" class="date-row">
+        <md-input-container flex="" >
+          <label for="">Full Name</label>
+          <input name="fullName" ng-model="vm.user.fullName" autocomplete="off" >
+
+        </md-input-container>
+        <md-input-container flex="" >
+          <label for="">Username</label>
+          <input name="username"  name-validate  url-name="/user/usernameExist"  ng-model-options="{ debounce: 250 }" property="userExist"
+                 ng-model="vm.user.username"  autocomplete="off" required>
+          <div ng-messages="agentForm.username.$error" ng-show="agentForm.username.$touched" role="alert">
+            <div ng-message="required">
+              <span >Username cannot be null</span>
+            </div>
+            <div ng-class="userExist" ng-show="userExist">
+              <span >Username must be greater than 5 digits and unique</span>
+            </div>
+          </div>
+        </md-input-container>
+      </div>
+      <div layout="row" class="date-row">
+        <md-input-container flex="">
+          <label for="">Email</label>
+          <input name="email" type="email" ng-model="vm.user.email" ng-model-options="{ debounce: 250 }"
+                 name-validate  url-name="/user/emailExist" property="emailExist" ng-pattern="/^.+@.+\..+$/" autocomplete="off">
+          <div ng-messages="agentForm.email.$error" ng-show="agentForm.email.$touched" role="alert">
+            <div ng-message="pattern">
+              <span >Email must be a valid e-mail address</span>
+            </div>
+            <div ng-class="emailExist" ng-show="emailExist">
+              <span >Email must be greater than 5 digits and unique</span>
+            </div>
+          </div>
+        </md-input-container>
+        <md-input-container flex="">
+          <label for="">Password</label>
+          <input name="password" type="password" required ng-minlength="5" ng-maxlength="15" ng-model="vm.user.password" ng-model-options="{ debounce: 250 }"
+                 autocomplete="off">
+          <div ng-messages="agentForm.password.$error" ng-show="agentForm.password.$touched" role="alert">
+            <div ng-message="required">
+              <span >Password cannot be null</span>
+            </div>
+            <div ng-message="minlength"><span>Password is too short</span></div>
+            <div ng-message="maxlength"><span>Password is too long</span></div>
+          </div>
+        </md-input-container>
+
+      </div>
+      <div layout="row" class="date-row">
+
+        <md-input-container class="md-block" flex="50">
+
+          <md-switch ng-model="vm.user.isActive"   aria-label="">{{vm.user.isActive?'Active':'Block'  }}</md-switch>
+
+        </md-input-container>
+        <md-input-container flex="50" class="md-block">
+          <label for="" translate="user.assignRole"></label>
+          <md-select ng-model="vm.user.roles[0].id">
+            <md-option ng-repeat="role in vm.roles" value="{{role.id}}">{{role.name}}</md-option>
+          </md-select>
+        </md-input-container>
+
+      </div>
+
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" layout-align="center center" layout-margin>
+      <md-button ng-click="vm.saveUser(vm.user)" class="save-button md-accent white-fg md-raised" aria-label="Save"
+                   ng-disabled="agentForm.$invalid || agentForm.$pristine">Save</md-button>
+
+    </md-dialog-actions>
+
+
+  </form>
+
+</md-dialog>

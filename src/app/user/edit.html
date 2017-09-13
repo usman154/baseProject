@@ -1,0 +1,32 @@
+<md-dialog class="event-detail-dialog" aria-label="New Message">
+  <form name="agentForm">
+    <md-toolbar class="md-accent md-hue-2">
+      <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <span class="title">Update Profile Picture</span>
+        <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate
+                   translate-attr-aria-label="CALENDAR.CLOSE_DIALOG">
+          <md-icon md-font-icon="icon-close"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    
+    <md-dialog-content ms-scroll>
+    	<div layout="row" layout-align="center center">
+      		<img ng-src="{{vm.agent.avatar ? vm.agent.avatar:'/efadminpanel/assets1/images/avatars/profile.jpg'}}" class="avatar huge" alt="{{vm.agent.first_name}}" />
+    	</div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="space-between center">
+      <md-button ng-click="vm.saveAgent(vm.agent)" class="save-button md-accent md-raised" aria-label="SAVE"
+                 ng-disabled="agentForm.$invalid || agentForm.$pristine">Save</md-button>
+
+      <md-button class="md-icon-button" aria-label="Delete" translate translate-attr-aria-label="CALENDAR.DELETE">
+        <md-icon md-font-icon="icon-delete"></md-icon>
+        <md-tooltip><span>Remove Current Picture</span></md-tooltip>
+      </md-button>
+    </md-dialog-actions>
+  </form>
+
+
+
+
+</md-dialog>
